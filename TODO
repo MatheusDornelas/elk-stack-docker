@@ -1,0 +1,9 @@
+#Docker file
+
+#Install Elasticsearch
+#Configure enviroment variables in elasticsearch.yml (OK)
+#Install Elasticsearch plugins
+#Run logging configuration
+
+#Install Logstash
+#Edit .conf file for parsing ES indexing and search logs
