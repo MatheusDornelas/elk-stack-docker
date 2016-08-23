@@ -69,7 +69,7 @@
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
  discovery.zen.ping.multicast.enabled: false
- discovery.zen.ping.unicast.hosts: ["${ES_NODE_1}:9300","${ES_NODE_2}:9300"]
+ discovery.zen.ping.unicast.hosts: ["${ES_NODES}"]
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1):
 #
