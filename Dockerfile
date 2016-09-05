@@ -1,25 +1,24 @@
-FROM phusion/baseimage:latest
+FROM anapsix/alpine-java:latest
 
-ENV ES_VERSION 2.3.5
+ENV ES_VERSION 2.4.0
 
-RUN curl http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
-RUN echo deb http://packages.elasticsearch.org/elasticsearch/2.x/debian stable main > /etc/apt/sources.list.d/elasticsearch-2.x.list
+RUN apk add --update curl
 
-RUN apt-get update -qq \
-	&& apt-get install -qqy \
-		openjdk-8-jdk \
-		elasticsearch=${ES_VERSION} \
-	&& apt-get clean
+RUN curl -o elasticsearch-${ES_VERSION}.tar.gz -sSL https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.tar.gz && \
+	tar -xzf elasticsearch-$ES_VERSION.tar.gz && \
+	rm elasticsearch-$ES_VERSION.tar.gz && \
+	mv elasticsearch-$ES_VERSION /usr/share/elasticsearch && \
+  	adduser -DH -s /sbin/nologin elasticsearch && \
+  	chown -R elasticsearch:elasticsearch /usr/share/elasticsearch
 
 WORKDIR /usr/share/elasticsearch
 
-COPY elasticsearch/logging.yml /usr/share/elasticsearch/config/
-COPY elasticsearch/elasticsearch.yml /usr/share/elasticsearch/config/
-
-USER elasticsearch
-
-ENV PATH=$PATH:/usr/share/elasticsearch/bin
+#COPY elasticsearch/logging.yml /usr/share/elasticsearch/config/
+#COPY elasticsearch/elasticsearch.yml /usr/share/elasticsearch/config/
+COPY docker-entrypoint.sh /
 
 EXPOSE 9200 9300
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["elasticsearch"]

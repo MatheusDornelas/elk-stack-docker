@@ -1,0 +1,19 @@
+Comandos básicos.
+
+#Parar container
+
+docker stop [container id or name]
+
+#Remove container
+
+docker rm [container id or name]
+
+docker rm -f [container id or name] #Remove running container
+
+#Build image from Dockerfile
+
+docker build -t [image tag] [path to dockerfile]
+
+#Running image
+
+docker run --name [container name] -e [enviroment variables] -d [image name]
